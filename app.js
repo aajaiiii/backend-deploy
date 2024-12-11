@@ -508,8 +508,9 @@ app.post("/reset-password/:id/:token", async (req, res) => {
         },
       }
     );
+    res.redirect("/success");
 
-    res.render("index", { email: verify.email, status: "verified" });
+    // res.render("index", { email: verify.email, status: "verified" });
   } catch (error) {
     console.log(error);
     res.send({ status: "เกิดข้อผิดพลาดบางอย่าง" });
