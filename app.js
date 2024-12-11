@@ -508,7 +508,7 @@ app.post("/reset-password/:id/:token", async (req, res) => {
         },
       }
     );
-    res.render("success", { message: "Password successfully reset!" });
+    res.render("success", { message: "Password successfully reset!" }, { email: verify.email, status: "verified" });
     // res.render("index", { email: verify.email, status: "verified" });
   } catch (error) {
     console.log(error);
@@ -547,9 +547,6 @@ app.post("/updateadmin/:id", async (req, res) => {
   }
 });
 
-app.get("/success", (req, res) => {
-    res.render("success"); // ชื่อไฟล์ EJS (ไม่ต้องใส่นามสกุล .ejs)
-});
 
 app.post("/profile", async (req, res) => {
   const { token } = req.body;
