@@ -1698,8 +1698,11 @@ app.post("/reset-passworddt/:id/:token", async (req, res) => {
         },
       }
     );
-
-    res.render("indexdt", { email: verify.email, status: "verified" });
+    res.render("success", {
+      message: "Password successfully reset!",
+      email: verify.email,
+    });  
+    // res.render("indexdt", { email: verify.email, status: "verified" });
   } catch (error) {
     console.log(error);
     res.send({ status: "Somthing went wrong" });
