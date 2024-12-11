@@ -508,8 +508,11 @@ app.post("/reset-password/:id/:token", async (req, res) => {
         },
       }
     );
-    res.render("success", { message: "Password successfully reset!" }, { email: verify.email, status: "verified" });
-    // res.render("index", { email: verify.email, status: "verified" });
+
+    res.render("success", {
+      message: "Password successfully reset!",
+      email: verify.email,
+    });  
   } catch (error) {
     console.log(error);
     res.send({ status: "เกิดข้อผิดพลาดบางอย่าง" });
@@ -546,7 +549,6 @@ app.post("/updateadmin/:id", async (req, res) => {
     res.status(500).json({ error: "มีข้อผิดพลาดในการอัปเดตรหัสผ่าน" });
   }
 });
-
 
 app.post("/profile", async (req, res) => {
   const { token } = req.body;
