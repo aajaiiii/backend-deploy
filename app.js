@@ -462,7 +462,7 @@ app.post("/forgot-password", async (req, res) => {
         return res.status(500).json({ status: "Error sending email" });
       } else {
         console.log("Email sent: " + info.response);
-        return res.status(200).json({ status: "successfully" });
+        return res.status(200).json({ status: "check your emailbox" });
 
       }
     });
@@ -1669,7 +1669,7 @@ app.post("/forgot-passworddt", async (req, res) => {
         return res.status(500).json({ status: "Error sending email" });
       } else {
         console.log("Email sent: " + info.response);
-        return res.status(200).json({ status: "successfully" });
+        return res.status(200).json({ status: "check your emailbox" });
 
       }
     });
