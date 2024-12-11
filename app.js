@@ -457,12 +457,13 @@ app.post("/forgot-password", async (req, res) => {
       subject: "Reset your password for Homeward",
       text: `Hello,\n\nFollow this link to reset your Homeward password for your ${email} account.\n${link}\n\nIf you didn't ask to reset your password,you can ignore this email.\n\nThanks,\n\nYour Homeward team`,
     };
-
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
+        return res.status(500).json({ status: "Error sending email" });
       } else {
         console.log("Email sent: " + info.response);
+        return res.status(200).json({ status: "successfully" });
+
       }
     });
 
@@ -1665,9 +1666,11 @@ app.post("/forgot-passworddt", async (req, res) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
+        return res.status(500).json({ status: "Error sending email" });
       } else {
         console.log("Email sent: " + info.response);
+        return res.status(200).json({ status: "successfully" });
+
       }
     });
 
