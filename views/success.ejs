@@ -44,14 +44,18 @@
             align-items: center;
             margin: auto;
         }
-
-        .header1 {
-            font-size: 20px;
+        .header {
+            text-align: center;
+            font-size: 25px;
             font-weight: 600;
             margin: 20px;
-            text-align: center;
         }
-
+.text{
+    text-align: center;
+}
+.textemail{
+    font-weight: 600;
+}
         .formcontainerpf {
             /* box-sizing: border-box; */
             border: 0.1px solid #ddd;
@@ -67,19 +71,21 @@
     flex-wrap: wrap; */
         }
     </style>
+ 
 </head>
 
 <body>
     <div class="homereset_content">
-        <div class="logoreset">
+        <!-- <div class="logoreset">
             <img src=".logo.png" alt="logo">
-        </div>
+        </div> -->
         <h1 class="header">
             รหัสผ่านของคุณเปลี่ยนแล้ว
         </h1>
-        <p>รหัสผ่านของคุณสำหรับอีเมล <%= email %> ได้รับการรีเซ็ตสำเร็จแล้ว</p>
-        <p>คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ของคุณ</p>
-
+        <div class="formcontainerpf card mb-3">
+        <p class="text">รหัสผ่านของคุณสำหรับอีเมล <span class="textemail"><%= email %> </span>ได้รับการเปลี่ยนสำเร็จแล้ว</p>
+        <p class="text">คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ของคุณ</p>
+    </div>
         </div>
     </div>
 

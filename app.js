@@ -1,4 +1,4 @@
-//เอาขึ้น firebase ใหม่
+//เอาขึ้น railway ใหม่
 const express = require("express");
 const app = express();
 app.use(express.json());
@@ -17,7 +17,7 @@ const { google } = require("googleapis");
 const axios = require('axios');
 const crypto = require('crypto');
 const refreshTokens = [];
-
+const session = require('express-session');
 const http = require('http');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
@@ -58,6 +58,11 @@ const JWT_SECRET =
 const mongoUrl =
   "mongodb+srv://sasithornsorn:Sasi12345678@cluster0.faewtst.mongodb.net/?retryWrites=true&w=majority";
 
+  app.use(session({
+    secret: '127iluvuhokdkiijijijiejfiejfiejfiopoq/*-/+4554#@@!&&*(((()))))))((**&^&',  // เปลี่ยนเป็นคีย์ที่ปลอดภัย
+    resave: false,
+    saveUninitialized: true,
+  }));
 mongoose
   .connect(mongoUrl, {
     dbName: "Homeward",
@@ -509,16 +514,32 @@ app.post("/reset-password/:id/:token", async (req, res) => {
       }
     );
 
-    res.render("success", {
-      message: "Password successfully reset!",
-      email: verify.email,
-    });  
+    req.session.successMessage = "Password successfully reset!";
+    req.session.email = verify.email;
+    res.redirect("/success");
   } catch (error) {
     console.log(error);
     res.send({ status: "เกิดข้อผิดพลาดบางอย่าง" });
   }
 });
 
+
+app.get("/success", (req, res) => {
+  if (req.session.successMessage && req.session.email) {
+    const { successMessage, email } = req.session;
+
+    // ล้างข้อมูล session หลังจากการแสดงผลหน้า success
+    req.session.destroy((err) => {
+      if (err) {
+        console.log("Error destroying session:", err);
+      }
+    });
+
+    res.render("success", { message: successMessage, email: email });
+  } else {
+    res.redirect("/");  // ถ้าไม่พบข้อมูลใน session ก็รีไดเร็กต์ไปหน้าอื่น
+  }
+});
 //เปลี่ยนรหัสแอดมิน
 app.post("/updateadmin/:id", async (req, res) => {
   const { password, newPassword, confirmNewPassword } = req.body;
@@ -1698,10 +1719,9 @@ app.post("/reset-passworddt/:id/:token", async (req, res) => {
         },
       }
     );
-    res.render("success", {
-      message: "Password successfully reset!",
-      email: verify.email,
-    });  
+    req.session.successMessage = "Password successfully reset!";
+    req.session.email = verify.email;
+    res.redirect("/success");
     // res.render("indexdt", { email: verify.email, status: "verified" });
   } catch (error) {
     console.log(error);
