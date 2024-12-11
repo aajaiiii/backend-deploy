@@ -538,14 +538,17 @@ app.post("/updateadmin/:id", async (req, res) => {
     // อัปเดตรหัสผ่าน
     await Admins.findByIdAndUpdate(id, { password: encryptedNewPassword });
 
-    res
-      .status(200)
-      .json({ status: "ok", message: "รหัสผ่านถูกอัปเดตเรียบร้อยแล้ว" });
+    res.redirect("/success");
   } catch (error) {
     console.error("Error during password update:", error);
     res.status(500).json({ error: "มีข้อผิดพลาดในการอัปเดตรหัสผ่าน" });
   }
 });
+
+app.get("/success", (req, res) => {
+  res.render("success");
+});
+
 
 app.post("/profile", async (req, res) => {
   const { token } = req.body;
