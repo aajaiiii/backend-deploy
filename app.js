@@ -508,8 +508,7 @@ app.post("/reset-password/:id/:token", async (req, res) => {
         },
       }
     );
-    res.redirect("/success");
-
+    res.render("success", { message: "Password successfully reset!" });
     // res.render("index", { email: verify.email, status: "verified" });
   } catch (error) {
     console.log(error);

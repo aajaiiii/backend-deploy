@@ -67,14 +67,14 @@
     flex-wrap: wrap; */
         }
     </style>
-    <script>
+    <!-- <script>
         var status = '<%- JSON.stringify(status) %>';
         if (JSON.parse(status) == "verified") {
             if (confirm("เปลี่ยนรหัสผ่านสำเร็จ")) {
                 window.location.href = "http://localhost:3000/";
             }
         }
-    </script>
+    </script> -->
      <!-- <script>
         // เมื่อรีเซ็ทรหัสผ่านสำเร็จ แสดง alert
         window.onload = function() {
@@ -96,7 +96,7 @@
             รหัสผ่านของคุณเปลี่ยนแล้ว
         </h1>
         <p>คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ของคุณ</p>
-
+        <h1><%= message %></h1>
         </div>
     </div>
 

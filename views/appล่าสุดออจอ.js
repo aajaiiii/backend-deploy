@@ -88,7 +88,57 @@ const UserThreshold = mongoose.model("UserThreshold")
 const Assessreadiness = mongoose.model("Assessreadiness")
 const OTPModel = mongoose.model("OTPModel")
 const OTPModelUser = mongoose.model("OTPModelUser")
+app.get("/reset-password/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
+  console.log(req.params);
+  const oldUser = await Admins.findOne({ _id: id });
+  if (!oldUser) {
+    return res.json({ status: "User Not Exists!!" });
+  }
+  const secret = JWT_SECRET + oldUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    res.render("index", { email: verify.email, status: "Not Verified" });
+  } catch (error) {
+    console.log(error);
+    res.send("Not Verified");
+  }
+});
 
+app.post("/reset-password/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
+  const { password, confirmpassword } = req.body;
+  console.log(req.params);
+
+  if (password !== confirmpassword) {
+    return res.json({ error: "รหัสผ่านไม่ตรงกัน" });
+  }
+  const oldUser = await Admins.findOne({ _id: id });
+  if (!oldUser) {
+    return res.json({ status: "ไม่มีผู้ใช้นี้อยู่ในระบบ!!" });
+  }
+  const secret = JWT_SECRET + oldUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    const encryptedPassword = await bcrypt.hash(password, 10);
+    await Admins.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          password: encryptedPassword,
+        },
+      }
+    );
+    res.render("success", { email: verify.email, status: "Not Verified" });
+
+    // res.render("index", { email: verify.email, status: "verified" });
+  } catch (error) {
+    console.log(error);
+    res.send({ status: "เกิดข้อผิดพลาดบางอย่าง" });
+  }
+});
 app.post("/addadmin", async (req, res) => {
   const { username, name,surname, email, password, confirmPassword } = req.body;
   if (!username || !password || !email) {
